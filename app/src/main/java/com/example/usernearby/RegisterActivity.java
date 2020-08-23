@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
@@ -17,10 +18,16 @@ import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -29,8 +36,6 @@ import java.util.Map;
 public class RegisterActivity extends AppCompatActivity {
 
   // Constants
-  public static final String CHAT_PREFS = "ChatPrefs";
-  public static final String DISPLAY_NAME_KEY = "username";
   public static final String USER_LIST = "user_list";
 
   //  Add member variables here:
@@ -49,6 +54,8 @@ public class RegisterActivity extends AppCompatActivity {
 
 
   private FirebaseAuth mAuth;
+  private FirebaseDatabase mData;
+  private DatabaseReference mRef;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +78,8 @@ public class RegisterActivity extends AppCompatActivity {
 
     // Get hold of an instance of FirebaseAuth
     mAuth = FirebaseAuth.getInstance();
+    mData = FirebaseDatabase.getInstance();
+    mRef = mData.getReference("users");
 
   }
 
@@ -80,13 +89,13 @@ public class RegisterActivity extends AppCompatActivity {
     mConfirmPasswordView = (EditText) findViewById(R.id.register_confirm_password);
     mUsernameView = (AutoCompleteTextView) findViewById(R.id.register_username);
 
-    mPreferences = PreferenceManager.getDefaultSharedPreferences(RegisterActivity.this);
+    /*mPreferences = PreferenceManager.getDefaultSharedPreferences(RegisterActivity.this);
     mEditor = mPreferences.edit();
 
     Gson gson = new Gson();
     String json = mPreferences.getString(USER_LIST, "");
     users = gson.fromJson(json, UserList.class);
-    userArrayList =  users.users;
+    userArrayList =  users.users;*/
 
   }
 
@@ -160,25 +169,23 @@ public class RegisterActivity extends AppCompatActivity {
           showErrorDialog("Registration attempt failed");
         }
         else{
-          saveDisplayName();
+          User user =  saveDisplayName();
           Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-          finish();
+          intent.putExtra("user", user);
           startActivity(intent);
         }
       }
     });
   }
 
-  private void saveDisplayName(){
-    User user = new User(mUsernameView.getText().toString(),mPasswordView.getText().toString(),mEmailView.getText().toString(),images[iImage % 4],0,0);
+  private User saveDisplayName(){
+    LatLng latLng = new LatLng(0,0);
+    User user = new User(mUsernameView.getText().toString(),mPasswordView.getText().toString(),mEmailView.getText().toString(),images[iImage % 4],0 ,0,true);
+
     iImage = (iImage + 1) % 4;
+    mRef.child(user.username).setValue(user);
 
-    userArrayList.add(user);
-
-    Gson gson = new Gson();
-    String json = gson.toJson(userArrayList);
-    mEditor.putString(USER_LIST, json);
-    mEditor.commit();
+    return user;
   }
   private void showErrorDialog(String message){
     new AlertDialog.Builder(this)

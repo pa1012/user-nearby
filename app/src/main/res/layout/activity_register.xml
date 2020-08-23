@@ -6,7 +6,15 @@
     android:layout_height="match_parent"
     tools:context=".RegisterActivity"
     android:orientation="vertical"
-    android:background="@color/white">
+    android:background="#feeae6">
+
+    <ImageView
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:src="@drawable/plus"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="50dp"
+        android:layout_gravity="center_horizontal"/>
 
     <AutoCompleteTextView
         android:id="@+id/register_username"
@@ -14,8 +22,8 @@
         android:layout_height="wrap_content"
         android:textSize="25sp"
         android:hint="@string/prompt_username"
-        android:textColor="@color/black"
-        android:textColorHint="@color/black"
+        android:textColor="#442c2e"
+        android:textColorHint="@color/white"
         android:inputType="textNoSuggestions"
         android:imeOptions="actionNext"
         android:maxLines="1"
@@ -27,10 +35,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/prompt_email"
-        android:textColor="@color/black"
+        android:textColor="#442c2e"
         android:textSize="25sp"
         android:imeOptions="actionNext"
-        android:textColorHint="@color/black"
+        android:textColorHint="@color/white"
         android:inputType="textEmailAddress"
         android:maxLines="1"
         android:textIsSelectable="false"
@@ -39,8 +47,8 @@
     <EditText
         android:id="@+id/register_password"
         android:textSize="25sp"
-        android:textColor="@color/black"
-        android:textColorHint="@color/black"
+        android:textColor="#442c2e"
+        android:textColorHint="@color/white"
         android:layout_width="match_parent"
         android:imeOptions="actionNext"
         android:layout_height="wrap_content"
@@ -51,9 +59,9 @@
 
     <EditText
         android:id="@+id/register_confirm_password"
-        android:textColor="@color/black"
+        android:textColor="#442c2e"
         android:textSize="25sp"
-        android:textColorHint="@color/black"
+        android:textColorHint="@color/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/prompt_password_again"
@@ -67,14 +75,16 @@
     <Button
         android:id="@+id/register_sign_up_button"
         style="?android:textAppearanceMedium"
-        android:background="@color/white"
-        android:textColor="@color/green"
+        android:background="@drawable/rounded_button"
+        android:textColor="#442c2e"
         android:onClick="signUp"
-        android:layout_width="match_parent"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="30dp"
         android:text="@string/action_sign_up"
-        android:textStyle="bold"/>
+        android:textStyle="bold"
+
+        />
 
 
 </LinearLayout>

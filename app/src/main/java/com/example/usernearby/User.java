@@ -8,32 +8,44 @@ public class User implements Serializable {
   String password;
   String email;
   int image;
-  float lat,lng;
-  public float getLat() {
+  double lat,lng;
+
+  boolean login;
+
+  public boolean isLogin() {
+    return login;
+  }
+
+  public void setLogin(boolean login) {
+    this.login = login;
+  }
+
+
+  public double getLat() {
     return lat;
   }
 
-  public void setLat(float lat) {
+  public void setLat(double lat) {
     this.lat = lat;
   }
 
-  public float getLng() {
+  public double getLng() {
     return lng;
   }
 
-  public void setLng(float lng) {
+  public void setLng(double lng) {
     this.lng = lng;
   }
 
 
-  public User(String username, String password, String email, int image, float lat, float lng) {
+  public User(String username, String password, String email, int image, double lat, double lng,boolean login) {
     this.username = username;
     this.password = password;
     this.email = email;
     this.image = image;
     this.lat = lat;
     this.lng = lng;
-
+    this.login = login;
   }
 
   public String getUsername() {

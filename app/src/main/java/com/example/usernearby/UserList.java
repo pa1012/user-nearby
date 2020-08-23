@@ -6,10 +6,11 @@ import java.util.ArrayList;
 public class UserList implements Serializable {
   ArrayList<User> users;
 
-  public UserList(ArrayList<User> users) {
-    this.users = users;
-  }
 
+
+  public User findUser(String email){
+    return null;
+  }
 
 
 }
