@@ -169,21 +169,23 @@ public class RegisterActivity extends AppCompatActivity {
           showErrorDialog("Registration attempt failed");
         }
         else{
-          User user =  saveDisplayName();
+          String key = mAuth.getUid();
+          User user =  saveDisplayName(key);
           Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
           intent.putExtra("user", user);
+          finish();
           startActivity(intent);
         }
       }
     });
   }
 
-  private User saveDisplayName(){
+  private User saveDisplayName(String key){
     LatLng latLng = new LatLng(0,0);
     User user = new User(mUsernameView.getText().toString(),mPasswordView.getText().toString(),mEmailView.getText().toString(),images[iImage % 4],0 ,0,true);
 
     iImage = (iImage + 1) % 4;
-    mRef.child(user.username).setValue(user);
+    mRef.child(key).setValue(user);
 
     return user;
   }

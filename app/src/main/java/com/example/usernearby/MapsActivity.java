@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -18,6 +19,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.speech.tts.TextToSpeech;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -47,6 +49,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -107,7 +110,27 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     intentIn = getIntent();
 
+  /*  mRef = FirebaseDatabase.getInstance().getReference("users");
+    _user = new ArrayList<>();
+
+    mRef.addValueEventListener(new ValueEventListener() {
+      @Override
+      public void onDataChange(DataSnapshot snapshot) {
+        _user.clear();
+        for (DataSnapshot postSnapshot: snapshot.getChildren()) {
+          User user = postSnapshot.getValue(User.class);
+          _user.add(user);
+        }
+      }
+
+      @Override
+      public void onCancelled(DatabaseError databaseError) {
+        System.out.println("The read failed: " + databaseError.getMessage());
+      }
+    });*/
+    userLogin = new User("pa",null,intentIn.getStringExtra("user_email"),R.drawable.user01,0,0,true);
     loadData();
+    //updateUsers();
     initComponent();
 
   }
@@ -119,29 +142,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
   }
 
   private void loadData() {
+
+
     _user = new ArrayList<>();
-
-    /*mRef = FirebaseDatabase.getInstance().getReference("users");
-
-
-    mRef.addValueEventListener(new ValueEventListener() {
-      @Override
-      public void onDataChange(DataSnapshot snapshot) {
-        _user.clear();
-        for (DataSnapshot postSnapshot: snapshot.getChildren()) {
-          User user = postSnapshot.getValue(User.class);
-          _user.add(user);
-
-
-
-        }
-      }
-
-      @Override
-      public void onCancelled(DatabaseError databaseError) {
-        System.out.println("The read failed: " + databaseError.getMessage());
-      }
-    });*/
     User user1 = new User("user01",
             null, "user01@gmail.com", R.drawable.user01,
             10.768313, 106.706793, true);
@@ -162,6 +165,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     _user.add(user3);
     _user.add(user4);
     _user.add(user5);
+
   }
 
   @Override
@@ -268,13 +272,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
   }
 
   private void updateUsers() {
+  /*  mRef = FirebaseDatabase.getInstance().getReference("users");
+    String key = intentIn.getStringExtra("user_key");
 
-    String user_email = intentIn.getStringExtra("user_email");
-    userLogin = _user.get(getPosition(user_email));
-    userLogin.setLat(mMap.getMyLocation().getLatitude());
+    double lat = mMap.getMyLocation().getLatitude();
+    double lng = mMap.getMyLocation().getLongitude();
+
+    mRef.child(key).child("lat").setValue(lat);
+    mRef.child(key).child("lng").setValue(lng);
+
+*/
+
+   // userLogin = _user.get(getPosition(user_email));
+   /* userLogin.setLat(mMap.getMyLocation().getLatitude());
     userLogin.setLng(mMap.getMyLocation().getLongitude());
-
-    mRef.child("users").child(userLogin.getUsername()).setValue(userLogin)
+*/
+    /*mRef.child("users").child(userLogin.getUsername()).setValue(userLogin)
             .addOnSuccessListener(new OnSuccessListener<Void>() {
               @Override
               public void onSuccess(Void aVoid) {
@@ -286,7 +299,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
               public void onFailure(@NonNull Exception e) {
                 Log.d("user_write","failed");
               }
-            });
+            });*/
 
   }
 
@@ -323,7 +336,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
   }
 
   public void onClickSetRadius(View view) {
-
+    //updateUsers();
     display();
     LatLngBounds.Builder builder = new LatLngBounds.Builder();
 
@@ -370,6 +383,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
       myCircle = mMap.addCircle(circleOptions);
     }
+  }
+
+
+  public void onClickLogout(View view) {
+    Intent intentOut = new Intent(MapsActivity.this, LoginActivity.class);
+    finish();
+    startActivity(intentOut);
   }
 }
 

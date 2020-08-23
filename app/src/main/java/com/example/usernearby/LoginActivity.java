@@ -106,9 +106,11 @@ public class LoginActivity extends AppCompatActivity {
           showErrorDialog("There was a problem signing in");
         }
         else {
-
+          String key = mAuth.getUid();
           Intent intent = new Intent(LoginActivity.this, MapsActivity.class);
-          intent.putExtra("user_email" ,  email);
+          intent.putExtra("user_key" ,  key);
+          intent.putExtra("user_email", email);
+          finish();
           startActivity(intent);
         }
       }

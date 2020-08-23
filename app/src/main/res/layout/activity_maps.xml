@@ -7,8 +7,15 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="9"
+        android:layout_weight="8"
         android:orientation="horizontal">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:background="@drawable/rounded_button"
+            android:src="@drawable/user01"
+            android:id="@+id/userLogin"/>
 
         <EditText
             android:id="@+id/radiusText"
@@ -23,11 +30,14 @@
             android:id="@+id/setBtn"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="5"
+            android:layout_weight="3"
             android:onClick="onClickSetRadius"
             android:text="set"
+            android:background="@drawable/rounded_button"
 
             />
+
+
 
     </LinearLayout>
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
@@ -38,5 +48,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".MapsActivity"
-        android:layout_weight="1"/>
+        android:layout_weight="2"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="8"
+        android:id="@+id/btn_logout"
+        android:textColor="#442c2e"
+        android:text="logout"
+        android:background="@drawable/rounded_button"
+        android:onClick="onClickLogout"/>
 </LinearLayout>
